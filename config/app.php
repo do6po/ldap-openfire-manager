@@ -159,7 +159,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
@@ -214,4 +213,5 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
     ],
 
+    'company_name' => env('COMPANY_NAME'),
 ];

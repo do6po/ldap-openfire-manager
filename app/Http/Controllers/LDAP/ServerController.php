@@ -10,6 +10,7 @@ namespace App\Http\Controllers\LDAP;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LDAPServerRequest;
 use App\Models\LDAP\Server;
 use Illuminate\Http\Request;
 
@@ -28,20 +29,22 @@ class ServerController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return view('ldap.create');
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param LDAPServerRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(LDAPServerRequest $request)
     {
-        //
+        Server::create($request->all());
+
+        return redirect()->route('ldap.index');
     }
 
     /**

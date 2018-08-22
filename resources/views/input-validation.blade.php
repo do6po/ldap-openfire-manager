@@ -20,6 +20,6 @@
     @endif
     {!! $input !!}
     @if ($errors->has($attribute))
-        <div class="help-block">{{ $errors->first($attribute) }}</div>
+        <div class="text-danger">{{ $errors->first($attribute) }}</div>
     @endif
 </div>

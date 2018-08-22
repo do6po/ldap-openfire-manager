@@ -17,7 +17,6 @@
         "barryvdh/laravel-ide-helper": "^2.4",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
-        "laravel/dusk": "^4.0",
         "laravelflux/laravel-fixtures": "*",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",

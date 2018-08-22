@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server wherePort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $description
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereDescription($value)
  */
 class Server extends Model
 {
