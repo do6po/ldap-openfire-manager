@@ -11,4 +11,6 @@
 |
 */
 
+Route::get('/', 'DashboardController@index');
+
 Route::resource('/ldap', 'LDAP\ServerController');

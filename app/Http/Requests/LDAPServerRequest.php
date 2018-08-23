@@ -25,7 +25,7 @@ class LDAPServerRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:servers|max:255',
-            'hostname' => 'required|unique:servers|alpha_dash|max:64',
+            'hostname' => 'required|unique:servers|string|max:64',
             'port' => 'integer|digits_between:1,65500',
             'description' => 'max:1024',
         ];
