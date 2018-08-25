@@ -37,6 +37,8 @@ class ServerTest extends TestCase
             'name' => 'New server name',
             'hostname' => 'new-hostname.local',
             'port' => 389,
+            'username' => 'newUsername',
+            'password' => \Hash::make('1234'),
         ];
         $this->assertDatabaseMissing(self::TEST_TABLE, $params);
         Server::create($params);
@@ -62,6 +64,8 @@ class ServerTest extends TestCase
         $params = [
             'name' => 'New server name',
             'hostname' => 'new-hostname.local',
+            'username' => 'newUsername',
+            'password' => \Hash::make('1234'),
         ];
         $this->assertDatabaseMissing(self::TEST_TABLE, $params);
         Server::create($params);

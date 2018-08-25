@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $hostname
  * @property int $port
+ * @property string $username
+ * @property string $password
+ * @property string|null $description
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereCreatedAt($value)
@@ -20,12 +23,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server wherePort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property string|null $description
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereUsername($value)
  */
 class Server extends Model
 {
     const DEFAULT_LDAP_PORT = 389;
 
-    protected $fillable = ['name', 'hostname', 'port'];
+    protected $fillable = [
+        'name',
+        'hostname',
+        'port',
+        'username',
+        'password'
+    ];
 }
