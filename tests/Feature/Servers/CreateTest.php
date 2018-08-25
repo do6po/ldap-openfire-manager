@@ -32,7 +32,7 @@ class CreateTest extends TestCase
     {
         $result = $this->get('/ldap/create');
         $result->assertOk();
-        $result->assertSeeText('Add LDAP server');
+        $result->assertSeeText('Add new');
     }
 
     public function testCreatePost(): void

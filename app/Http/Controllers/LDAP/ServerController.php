@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\LDAP;
 
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LDAPServerRequest;
 use App\Models\LDAP\Server;
@@ -48,37 +47,43 @@ class ServerController extends Controller
     }
 
     /**
-     * @param  \App\Models\LDAP\Server  $servers
+     * @param  \App\Models\LDAP\Server $server
      * @return \Illuminate\Http\Response
      */
-    public function show(Server $servers)
+    public function show(Server $server)
     {
-        //
+
     }
 
     /**
-     * @param  \App\Models\LDAP\Server  $servers
+     * @param  \App\Models\LDAP\Server $server
      * @return \Illuminate\Http\Response
      */
-    public function edit(Server $servers)
+    public function edit(Server $server)
     {
-        //
+        return view('ldap.edit', [
+            'server' => $server,
+        ]);
     }
 
     /**
      * @param Request $request
-     * @param Server $servers
+     * @param Server $server
      */
-    public function update(Request $request, Server $servers)
+    public function update(Request $request, Server $server)
     {
-        //
+
     }
 
     /**
-     * @param Server $servers
+     * @param \App\Models\LDAP\Server $server
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Server $servers)
+    public function destroy(Server $server)
     {
-        //
+        $server->delete();
+
+        return redirect()->route('ldap.index');
     }
 }

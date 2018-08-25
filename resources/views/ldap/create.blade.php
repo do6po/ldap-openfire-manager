@@ -1,13 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <section class="content-header">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('ldap.index') }}">{{ __('DASHBOARD') }}</a>
-            </li>
-            <li class="breadcrumb-item active">{{ __('Add LDAP server') }}</li>
-        </ol>
-    </section>
+
+    {{ Breadcrumbs::render('ldap.create') }}
+
     <section class="content">
         {!! Form::open(['route' => 'ldap.store', 'files' => true, ]) !!}
         <div class="form-group">
