@@ -36,6 +36,10 @@ class Server extends Model
         'hostname',
         'port',
         'username',
-        'password'
+        'password',
+    ];
+
+    protected $attributes = [
+        'port' => self::DEFAULT_LDAP_PORT,
     ];
 }

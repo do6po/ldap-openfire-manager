@@ -32,6 +32,26 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    {!! Form::label('username', __('Username')) !!}
+                    {!! Form::text('username', old('username'), [
+                        'class' => 'form-control',
+                        'placeholder' => __(''),
+                    ]) !!}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    {!! Form::label('password', __('Password')) !!}
+                    {!! Form::password('password', [
+                        'class' => 'form-control',
+                        'placeholder' => __(''),
+                    ]) !!}
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             {!! Form::label('description', __('Description')) !!}
             {!! Form::textarea('description', old('description'), [

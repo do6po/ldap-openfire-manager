@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\LDAP\Server;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +17,7 @@ class CreateServersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('hostname');
-            $table->integer('port')->default(Server::DEFAULT_LDAP_PORT);
+            $table->integer('port');
             $table->string('username');
             $table->string('password');
             $table->text('description')->nullable();
