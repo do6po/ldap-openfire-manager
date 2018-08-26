@@ -23,18 +23,35 @@ class LDAPServerRequest extends FormRequest
 
     public function rules(): array
     {
+        $this->replace($this->trimAll($this->all()));
+
         return [
-            'name' => 'required|unique:servers|max:255',
+            'name' => [
+                'required',
+                'unique:servers,id,:id',
+                'max:255',
+            ],
             'hostname' => [
                 'required',
                 'string',
-                'unique:servers',
+                'unique:servers,id,:id',
                 new Hostname(),
             ],
             'port' => 'nullable|integer|digits_between:1,65535',
             'username' => 'required|string|max:64',
-            'password' => 'required|string|max:64',
+            'password' => 'nullable|string|max:64',
             'description' => 'max:1024',
         ];
+    }
+
+    protected function trimAll(array $array): array
+    {
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            $result[$key] = trim($value);
+        }
+
+        return $result;
     }
 }

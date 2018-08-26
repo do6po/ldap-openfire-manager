@@ -24,5 +24,10 @@ Breadcrumbs::for('ldap.create', function ($trail) {
 
 Breadcrumbs::for('ldap.edit', function ($trail, Server $server) {
     $trail->parent('ldap');
-    $trail->push('Edit', route('ldap.edit', $server->id));
+    $trail->push('Edit', route('ldap.edit', $server));
+});
+
+Breadcrumbs::for('ldap.show', function ($trail, Server $server) {
+    $trail->parent('ldap');
+    $trail->push($server->name, route('ldap.show', $server));
 });

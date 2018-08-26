@@ -42,4 +42,18 @@ class Server extends Model
     protected $attributes = [
         'port' => self::DEFAULT_LDAP_PORT,
     ];
+
+    public static function attributes()
+    {
+        return [
+            'id' => __('ID'),
+            'name' => __('Server name'),
+            'hostname' => __('Hostname'),
+            'port' => __('Port'),
+            'username' => __('Username'),
+            'updated_at' => __('Updated at'),
+            'created_at' => __('Created at'),
+            'description' => __('Description'),
+        ];
+    }
 }

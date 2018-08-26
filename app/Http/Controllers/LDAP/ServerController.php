@@ -11,7 +11,6 @@ namespace App\Http\Controllers\LDAP;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LDAPServerRequest;
 use App\Models\LDAP\Server;
-use Illuminate\Http\Request;
 
 class ServerController extends Controller
 {
@@ -52,7 +51,9 @@ class ServerController extends Controller
      */
     public function show(Server $server)
     {
-
+        return view('ldap.show', [
+            'server' => $server,
+        ]);
     }
 
     /**
@@ -67,12 +68,15 @@ class ServerController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Server $server
+     * @param \App\Http\Requests\LDAPServerRequest $request
+     * @param \App\Models\LDAP\Server $server
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Server $server)
+    public function update(LDAPServerRequest $request, Server $server)
     {
+        $server->update($request->all());
 
+        return redirect()->route('ldap.show', $server);
     }
 
     /**
