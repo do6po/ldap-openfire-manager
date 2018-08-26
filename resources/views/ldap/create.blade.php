@@ -1,4 +1,7 @@
 @extends('layouts.app')
+
+@section('title', __('Add LDAP server'))
+
 @section('content')
 
     {{ Breadcrumbs::render('ldap.create') }}

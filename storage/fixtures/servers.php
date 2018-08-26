@@ -13,7 +13,7 @@ return [
         'hostname' => 'ldap1.local',
         'port' => 389,
         'username' => 'username1',
-        'password' => Hash::make('1234'),
+        'password' => '1234',
     ],
     [
         'id' => 2,
@@ -21,7 +21,7 @@ return [
         'hostname' => 'ldap2.local',
         'port' => 389,
         'username' => 'username2',
-        'password' => Hash::make('1234'),
+        'password' => '1234',
     ],
     [
         'id' => 3,
@@ -29,6 +29,6 @@ return [
         'hostname' => 'ldap3.local',
         'port' => 389,
         'username' => 'username3',
-        'password' => Hash::make('1234'),
+        'password' => '1234',
     ],
 ];

@@ -1,4 +1,13 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\LDAP\Server[] $servers */
+
+?>
+
 @extends('layouts.app')
+
+@section('title', __('LDAP servers list'))
+
 @section('content')
 
     {{ Breadcrumbs::render('ldap') }}

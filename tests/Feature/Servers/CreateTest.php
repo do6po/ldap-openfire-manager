@@ -28,14 +28,14 @@ class CreateTest extends TestCase
         ];
     }
 
-    public function testCreate(): void
+    public function testCreatePage(): void
     {
         $result = $this->get('/ldap/create');
         $result->assertOk();
         $result->assertSeeText('Add new');
     }
 
-    public function testCreatePost(): void
+    public function testCreate(): void
     {
         $newServer = [
             'name' => 'new server name',

@@ -3,6 +3,9 @@
 ?>
 
 @extends('layouts.app')
+
+@section('title', __('Edit LDAP server'))
+
 @section('content')
 
     {{ Breadcrumbs::render('ldap.edit', $server) }}

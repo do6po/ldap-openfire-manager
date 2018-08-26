@@ -2,19 +2,19 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
-                    Dashboard
-                    <span class="sr-only">(current)</span>
+                <a class="nav-link {{ Route::currentRouteNamed('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <i class="fa fa-home"></i>
+                    {{ __('Dashboard') }}
                 </a>
             </li>
-            <li class="nav-item {{ Route::currentRouteNamed('ldap.*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('ldap.index') }}">
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteNamed('ldap.*') ? 'active' : '' }}" href="{{ route('ldap.index') }}">
                     <i class="fa fa-server"></i>
-                    LDAP servers
+                    {{ __('LDAP servers') }}
                 </a>
             </li>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <li class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Saved reports</span>
                 <a class="d-flex align-items-center text-muted" href="#">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -25,7 +25,7 @@
                         <line x1="8" y1="12" x2="16" y2="12"></line>
                     </svg>
                 </a>
-            </h6>
+            </li>
         </ul>
     </div>
 </nav>
