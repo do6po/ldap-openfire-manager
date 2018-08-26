@@ -53,11 +53,17 @@ apt-get install -y software-properties-common apt-transport-https lsb-release ca
 apt-get autoremove -y
 
 info "Install additional software"
-apt-get install -y git zip unzip npm
+apt-get install -y git zip unzip
 apt-get install -y bash-completion mysql-community-server nginx gettext snmp
 apt-get install -y php7.1-fpm php7.1-cli php7.1-curl php7.1-intl php7.1-mysql php7.1-mbstring php7.1-xml php7.1-zip php7.1-snmp
-npm install less -g
-ln -s /usr/bin/nodejs /usr/bin/node
+
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash
+apt-get install -y nodejs
+apt-get install gcc g++ make
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+apt-get update && sudo apt-get install yarn
+
 echo "Done!"
 
 info "Install Xdebug"

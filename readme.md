@@ -10,7 +10,7 @@ INSTALLATION
 ### Install via git
 
 ```bash
-git git clone git clone https://helvis@bitbucket.org/helvis/ldap-openfire-manager.git
+git git clone git clone https://github.com/do6po/ldap-openfire-manager.git
 cd ldap-openfire-manager
 ```
 
