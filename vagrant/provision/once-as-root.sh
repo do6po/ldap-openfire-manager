@@ -55,7 +55,7 @@ apt-get autoremove -y
 info "Install additional software"
 apt-get install -y git zip unzip
 apt-get install -y bash-completion mysql-community-server nginx gettext snmp
-apt-get install -y php7.1-fpm php7.1-cli php7.1-curl php7.1-intl php7.1-mysql php7.1-mbstring php7.1-xml php7.1-zip php7.1-snmp
+apt-get install -y php7.1-fpm php7.1-cli php7.1-curl php7.1-intl php7.1-mysql php7.1-mbstring php7.1-xml php7.1-zip php7.1-snmp php7.1-ldap
 
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash
 apt-get install -y nodejs

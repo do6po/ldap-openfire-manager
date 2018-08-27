@@ -16,6 +16,9 @@
             <a href="{{ route('ldap.edit', $server) }}" class="btn btn-primary">
                 {{ __('Edit') }}
             </a>
+            <a href="{{ route('ldap.test', $server) }}" class="btn btn-info">
+                {{ __('Test connection') }}
+            </a>
             <a href="{{ redirect()->getUrlGenerator()->previous() }}" class="btn btn-default">
                 {{ __('Cancel') }}
             </a>
@@ -87,6 +90,11 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </section>
+    <section class="content">
+        <div class="form-group">
+
         </div>
     </section>
 @endsection

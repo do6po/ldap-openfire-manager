@@ -45,5 +45,7 @@ class ShowTest extends TestCase
             '389',
             'username1',
         ]);
+
+        $result->assertSeeText('Test connection');
     }
 }

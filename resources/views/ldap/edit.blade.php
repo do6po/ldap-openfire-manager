@@ -70,7 +70,7 @@
         <div class="form-group text-right">
             <a href="{{ redirect()->getUrlGenerator()->previous() }}"
                class="btn btn-default">{{ __('Return') }}</a>
-            {!! Form::submit(__('Add'), ['class' => 'btn btn-success']) !!}
+            {!! Form::submit(__('Save'), ['class' => 'btn btn-success']) !!}
         </div>
         {!! Form::close() !!}
     </section>
