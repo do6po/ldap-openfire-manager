@@ -23,7 +23,6 @@ class LDAPServerRequest extends FormRequest
 
     public function rules(): array
     {
-        $this->replace($this->trimAll($this->all()));
 
         return [
             'name' => [
@@ -37,7 +36,7 @@ class LDAPServerRequest extends FormRequest
                 'unique:servers,id,:id',
                 new Hostname(),
             ],
-            'port' => 'nullable|integer|digits_between:1,65535',
+            'port' => 'integer|digits_between:1,65535',
             'username' => 'required|string|max:64',
             'password' => 'nullable|string|max:64',
             'description' => 'max:1024',
