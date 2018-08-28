@@ -4,12 +4,15 @@ namespace Tests\Feature\Servers;
 
 use LaravelFlux\Fixture\Traits\FixtureTrait;
 use Tests\Fixtures\ServerFixture;
+use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class IndexTest extends TestCase
 {
-    use RefreshDatabase, FixtureTrait;
+    use RefreshDatabase, FixtureTrait, AuthTrait;
+
+    const URI = '/ldap';
 
     /**
      * @throws \LaravelFlux\Fixture\Exceptions\InvalidConfigException
@@ -28,14 +31,22 @@ class IndexTest extends TestCase
         ];
     }
 
+    public function testRedirectForNonAuth(): void
+    {
+        $response = $this->get(self::URI);
+        $response->assertRedirect('/login');
+    }
+
     /**
      * @throws \LaravelFlux\Fixture\Exceptions\InvalidConfigException
      */
     public function testIndex(): void
     {
-        $result = $this->get('/ldap');
-        $result->assertOk();
-        $result->assertSeeText('Company name');
+        $this->login();
+
+        $response = $this->get(self::URI);
+        $response->assertOk();
+        $response->assertSeeText('Company name');
 
         $servers = $this->getFixture('servers');
         $orderData = [];
@@ -44,6 +55,6 @@ class IndexTest extends TestCase
             $orderData[] = $server['name'];
         }
 
-        $result->assertSeeTextInOrder($orderData);
+        $response->assertSeeTextInOrder($orderData);
     }
 }

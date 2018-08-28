@@ -23,6 +23,8 @@ class TestConnectionController extends Controller
     public function __construct(LDAPService $LDAPService)
     {
         $this->LDAPService = $LDAPService;
+
+        $this->middleware('auth');
     }
 
     /**

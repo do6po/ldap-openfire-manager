@@ -11,11 +11,14 @@ namespace Tests\Feature\Servers;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
 use Tests\Fixtures\ServerFixture;
+use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 
 class DestroyTest extends TestCase
 {
-    use RefreshDatabase, FixtureTrait;
+    use RefreshDatabase, FixtureTrait, AuthTrait;
+
+    const URI = '/ldap/1';
 
     /**
      * @throws \LaravelFlux\Fixture\Exceptions\InvalidConfigException
@@ -34,15 +37,23 @@ class DestroyTest extends TestCase
         ];
     }
 
-    public function testDestroy()
+    public function testRedirectForNonAuth(): void
     {
+        $response = $this->get(self::URI);
+        $response->assertRedirect('/login');
+    }
+
+    public function testDestroy(): void
+    {
+        $this->login();
+
         $data = [
             'id' => 1,
             'name' => 'Local ldap server 1'
         ];
         $this->assertDatabaseHas('servers', $data);
 
-        $result = $this->delete('/ldap/1');
+        $result = $this->delete(self::URI);
         $result->assertRedirect('/ldap');
 
         $this->assertDatabaseMissing('servers', $data);

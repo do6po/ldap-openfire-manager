@@ -11,11 +11,12 @@ namespace Tests\Feature\Servers;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
 use Tests\Fixtures\ServerFixture;
+use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
-    use RefreshDatabase, FixtureTrait;
+    use RefreshDatabase, FixtureTrait, AuthTrait;
 
     /**
      * @throws \LaravelFlux\Fixture\Exceptions\InvalidConfigException
@@ -34,8 +35,16 @@ class UpdateTest extends TestCase
         ];
     }
 
+    public function testRedirectForNonAuth(): void
+    {
+        $response = $this->get('/ldap/1/edit');
+        $response->assertRedirect('/login');
+    }
+
     public function testUpdatePage()
     {
+        $this->login();
+
         $result = $this->get('/ldap/1/edit');
         $result->assertOk();
         $result->assertSeeText('Save');
@@ -43,6 +52,8 @@ class UpdateTest extends TestCase
 
     public function testUpdate()
     {
+        $this->login();
+
         $this->assertDatabaseHas('servers', [
             'id' => 1,
             'name' => 'Local ldap server 1'
