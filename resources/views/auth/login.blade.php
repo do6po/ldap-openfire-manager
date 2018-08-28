@@ -15,7 +15,7 @@
                     ]) !!}
                     @if ($errors->has('email'))
                         <div class="invalid-feedback">
-                            <strong>{{ $errors->first('email') }}</strong>
+                            {{ $errors->first('email') }}
                         </div>
                     @endif
                 </div>
@@ -26,14 +26,14 @@
                     ]) !!}
                     @if ($errors->has('password'))
                         <div class="invalid-feedback">
-                            <strong>{{ $errors->first('password') }}</strong>
+                            {{ $errors->first('password') }}
                         </div>
                     @endif
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
                         <label>
-                            {!! Form::checkbox('remember',  old('remember') ? 'checked' : '') !!}
+                            {!! Form::checkbox('remember',  old('remember')) !!}
                             {{ __('Remember me') }}
                         </label>
                     </div>
@@ -48,4 +48,9 @@
         </div>
     </section>
 
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    {!! JsValidator::formRequest(\App\Http\Requests\LoginRequest::class) !!}
 @endsection

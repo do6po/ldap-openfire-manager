@@ -20,8 +20,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|no_js_validation',
-            'password' => 'required|string|no_js_validation',
+            'email' => 'required|email',
+            'password' => 'required|string',
+            'remember' => 'in:on,off',
         ];
     }
 }

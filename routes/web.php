@@ -11,7 +11,13 @@
 |
 */
 
-Route::auth();
+Route::group([
+    'namespace' => 'Auth',
+], function () {
+    $this->get('login', 'LoginController@showLoginForm')->name('login');
+    $this->post('login', 'LoginController@login');
+    $this->post('logout', 'LoginController@logout')->name('logout');
+});
 
 Route::get('/', 'DashboardController@index')->name('dashboard');
 
