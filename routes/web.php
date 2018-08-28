@@ -11,7 +11,10 @@
 |
 */
 
+Route::auth();
+
 Route::get('/', 'DashboardController@index')->name('dashboard');
 
 Route::resource('/ldap', 'LDAP\ServerController');
+
 Route::get('/ldap/test/{ldap}', 'LDAP\TestConnectionController@test')->name('ldap.test');

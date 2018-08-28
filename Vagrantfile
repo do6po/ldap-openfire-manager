@@ -80,5 +80,6 @@ Vagrant.configure(2) do |config|
   # post-install message (vagrant console)
   config.vm.post_up_message = %Q{
     app URL: http://#{domains[:app]}
+    Login email: admin@example.com / Password:admin
   }
 end

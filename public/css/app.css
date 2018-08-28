@@ -2317,7 +2317,7 @@ select.form-control:focus::-ms-value {
 }
 
 .invalid-feedback {
-    display: none;
+    /*display: none;*/
     width: 100%;
     margin-top: .25rem;
     /*font-size: 80%;*/
