@@ -17,7 +17,7 @@ class CreateServersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('hostname');
-            $table->integer('port')->default(\App\Models\LDAP\Server::DEFAULT_LDAP_PORT);
+            $table->integer('port')->default(\App\Models\LDAP\LDAP::DEFAULT_LDAP_PORT);
             $table->string('username');
             $table->string('password')->nullable();
             $table->text('description')->nullable();

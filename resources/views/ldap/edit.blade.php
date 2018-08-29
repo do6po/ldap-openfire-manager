@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Models\LDAP\Server $server */
+/** @var \App\Models\LDAP\LDAP $server */
 ?>
 
 @extends('layouts.app')
@@ -16,7 +16,6 @@
             {!! Form::label('name', __('Name')) !!}
             {!! Form::text('name', $server->name, [
                     'class' => 'form-control',
-                    'placeholder' => __(''),
                 ]) !!}
         </div>
         <div class="row">
@@ -25,7 +24,6 @@
                     {!! Form::label('hostname', __('Hostname')) !!}
                     {!! Form::text('hostname', $server->hostname, [
                         'class' => 'form-control',
-                        'placeholder' => __(''),
                     ]) !!}
                 </div>
             </div>
@@ -34,7 +32,6 @@
                     {!! Form::label('port', __('Port')) !!}
                     {!! Form::text('port', $server->port, [
                         'class' => 'form-control',
-                        'placeholder' => __(''),
                     ]) !!}
                 </div>
             </div>
@@ -45,7 +42,6 @@
                     {!! Form::label('username', __('Username')) !!}
                     {!! Form::text('username', $server->username, [
                         'class' => 'form-control',
-                        'placeholder' => __(''),
                     ]) !!}
                 </div>
             </div>
@@ -54,7 +50,6 @@
                     {!! Form::label('password', __('Password')) !!}
                     {!! Form::password('password', [
                         'class' => 'form-control',
-                        'placeholder' => __(''),
                     ]) !!}
                 </div>
             </div>
@@ -63,7 +58,6 @@
             {!! Form::label('description', __('Description')) !!}
             {!! Form::textarea('description', $server->description, [
                 'class' => 'form-control',
-                'placeholder' => __(''),
                 'rows' => 6,
             ]) !!}
         </div>
@@ -79,5 +73,5 @@
 
 @section('scripts')
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-    {!! JsValidator::formRequest(\App\Http\Requests\LDAPServerRequest::class) !!}
+    {!! JsValidator::formRequest(\App\Http\Requests\LDAPRequest::class) !!}
 @endsection

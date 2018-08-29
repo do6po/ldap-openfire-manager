@@ -2,17 +2,15 @@
 
 namespace Tests\Unit\app\Models\LDAP;
 
-use App\Models\LDAP\Server;
+use App\Models\LDAP\LDAP;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
-use Tests\Fixtures\ServerFixture;
+use Tests\Fixtures\LDAPFixture;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ServerTest extends TestCase
+class LDAPTest extends TestCase
 {
     use RefreshDatabase, FixtureTrait;
-
-    const TEST_TABLE = 'servers';
 
     /**
      * @throws \LaravelFlux\Fixture\Exceptions\InvalidConfigException
@@ -27,7 +25,7 @@ class ServerTest extends TestCase
     public function fixtures()
     {
         return [
-            ServerFixture::class,
+            LDAPFixture::class,
         ];
     }
 
@@ -40,23 +38,23 @@ class ServerTest extends TestCase
             'username' => 'newUsername',
             'password' => \Hash::make('1234'),
         ];
-        $this->assertDatabaseMissing(self::TEST_TABLE, $params);
-        Server::create($params);
-        $this->assertDatabaseHas(self::TEST_TABLE, $params);
+        $this->assertDatabaseMissing(LDAP::TABLE_NAME, $params);
+        LDAP::create($params);
+        $this->assertDatabaseHas(LDAP::TABLE_NAME, $params);
     }
 
     public function testUpdate(): void
     {
         $updatedServerName = 'Updated server name';
-        $this->assertDatabaseMissing(self::TEST_TABLE, ['name' => $updatedServerName]);
+        $this->assertDatabaseMissing(LDAP::TABLE_NAME, ['name' => $updatedServerName]);
 
         $serverId = 1;
-        $server = Server::findOrFail($serverId);
+        $server = LDAP::findOrFail($serverId);
         $this->assertNotNull($server);
 
         $server->name = $updatedServerName;
         $this->assertTrue($server->save());
-        $this->assertDatabaseHas(self::TEST_TABLE, ['name' => $updatedServerName]);
+        $this->assertDatabaseHas(LDAP::TABLE_NAME, ['name' => $updatedServerName]);
     }
 
     public function testCreateWithoutPort()
@@ -67,10 +65,10 @@ class ServerTest extends TestCase
             'username' => 'newUsername',
             'password' => \Hash::make('1234'),
         ];
-        $this->assertDatabaseMissing(self::TEST_TABLE, $params);
-        Server::create($params);
+        $this->assertDatabaseMissing(LDAP::TABLE_NAME, $params);
+        LDAP::create($params);
 
         $params['port'] = 389;
-        $this->assertDatabaseHas(self::TEST_TABLE, $params);
+        $this->assertDatabaseHas(LDAP::TABLE_NAME, $params);
     }
 }

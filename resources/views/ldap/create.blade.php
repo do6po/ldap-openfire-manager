@@ -7,7 +7,7 @@
     {{ Breadcrumbs::render('ldap.create') }}
 
     <section class="content">
-        {!! Form::open(['route' => 'ldap.store', 'files' => true, ]) !!}
+        {!! Form::open(['route' => 'ldap.store']) !!}
         <div class="form-group">
             {!! Form::label('name', __('Name')) !!}
             {!! Form::text('name', old('name'), [
@@ -74,5 +74,5 @@
 
 @section('scripts')
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-    {!! JsValidator::formRequest(\App\Http\Requests\LDAPServerRequest::class) !!}
+    {!! JsValidator::formRequest(\App\Http\Requests\LDAPRequest::class) !!}
 @endsection

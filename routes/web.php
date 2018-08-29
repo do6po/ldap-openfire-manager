@@ -21,6 +21,23 @@ Route::group([
 
 Route::get('/', 'DashboardController@index')->name('dashboard');
 
-Route::resource('/ldap', 'LDAP\ServerController');
+Route::group([
+    'prefix' => 'ldap',
+    'namespace' => 'LDAP',
+    'as' => 'ldap.',
+    'middleware' => 'auth',
+], function () {
+    Route::get('/', 'LDAPController@index')->name('index');
+    Route::get('/create', 'LDAPController@create')->name('create');
+    Route::post('/', 'LDAPController@store')->name('store');
+    Route::get('/{ldap}', 'LDAPController@show')->name('show');
+    Route::get('/{ldap}/edit', 'LDAPController@edit')->name('edit');
+    Route::put('/{ldap}', 'LDAPController@update')->name('update');
+    Route::delete('/{ldap}', 'LDAPController@destroy')->name('destroy');
 
-Route::get('/ldap/test/{ldap}', 'LDAP\TestConnectionController@test')->name('ldap.test');
+    Route::get('/{ldap}/test', 'TestConnectionController@test')->name('test');
+});
+
+//dd(Route::getRoutes());
+
+

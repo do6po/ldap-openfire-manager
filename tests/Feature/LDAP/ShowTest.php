@@ -3,18 +3,18 @@
  * Created by PhpStorm.
  * User: Boiko Sergii
  * Date: 26.08.2018
- * Time: 16:12
+ * Time: 16:17
  */
 
-namespace Tests\Feature\Servers;
+namespace Tests\Feature\LDAP;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
-use Tests\Fixtures\ServerFixture;
+use Tests\Fixtures\LDAPFixture;
 use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 
-class DestroyTest extends TestCase
+class ShowTest extends TestCase
 {
     use RefreshDatabase, FixtureTrait, AuthTrait;
 
@@ -33,7 +33,7 @@ class DestroyTest extends TestCase
     public function fixtures(): array
     {
         return [
-            'servers' => ServerFixture::class,
+            'servers' => LDAPFixture::class,
         ];
     }
 
@@ -43,19 +43,20 @@ class DestroyTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    public function testDestroy(): void
+    public function testShow(): void
     {
         $this->login();
 
-        $data = [
-            'id' => 1,
-            'name' => 'Local ldap server 1'
-        ];
-        $this->assertDatabaseHas('servers', $data);
+        $result = $this->get(self::URI);
+        $result->assertOk();
 
-        $result = $this->delete(self::URI);
-        $result->assertRedirect('/ldap');
+        $result->assertSeeTextInOrder([
+            'Local ldap server 1',
+            'ldap1.local',
+            '389',
+            'username1',
+        ]);
 
-        $this->assertDatabaseMissing('servers', $data);
+        $result->assertSeeText('Test connection');
     }
 }

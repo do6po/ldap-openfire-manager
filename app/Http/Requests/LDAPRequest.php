@@ -8,10 +8,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\LDAP\LDAP;
 use App\Rules\Hostname;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class LDAPServerRequest extends FormRequest
+class LDAPRequest extends FormRequest
 {
     /**
      * @return bool
@@ -23,17 +25,18 @@ class LDAPServerRequest extends FormRequest
 
     public function rules(): array
     {
+        $id = $this->ldap->id ?? null;
 
         return [
             'name' => [
                 'required',
-                'unique:servers,id,:id',
+                Rule::unique(LDAP::TABLE_NAME)->ignore($id),
                 'max:255',
             ],
             'hostname' => [
                 'required',
                 'string',
-                'unique:servers,id,:id',
+                Rule::unique(LDAP::TABLE_NAME)->ignore($id),
                 new Hostname(),
             ],
             'port' => 'integer|digits_between:1,65535',
@@ -41,16 +44,5 @@ class LDAPServerRequest extends FormRequest
             'password' => 'nullable|string|max:64',
             'description' => 'max:1024',
         ];
-    }
-
-    protected function trimAll(array $array): array
-    {
-        $result = [];
-
-        foreach ($array as $key => $value) {
-            $result[$key] = trim($value);
-        }
-
-        return $result;
     }
 }

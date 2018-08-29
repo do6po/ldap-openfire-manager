@@ -9,10 +9,10 @@
 namespace App\Http\Controllers\LDAP;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LDAPServerRequest;
-use App\Models\LDAP\Server;
+use App\Http\Requests\LDAPRequest;
+use App\Models\LDAP\LDAP;
 
-class ServerController extends Controller
+class LDAPController extends Controller
 {
     public function __construct()
     {
@@ -24,7 +24,7 @@ class ServerController extends Controller
      */
     public function index()
     {
-        $servers = Server::paginate();
+        $servers = LDAP::paginate();
 
         return view('ldap.index', [
             'servers' => $servers,
@@ -40,58 +40,58 @@ class ServerController extends Controller
     }
 
     /**
-     * @param LDAPServerRequest $request
+     * @param LDAPRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LDAPServerRequest $request)
+    public function store(LDAPRequest $request)
     {
-        Server::create($request->all());
-
-        return redirect()->route('ldap.index');
-    }
-
-    /**
-     * @param  \App\Models\LDAP\Server $server
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Server $server)
-    {
-        return view('ldap.show', [
-            'server' => $server,
-        ]);
-    }
-
-    /**
-     * @param  \App\Models\LDAP\Server $server
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Server $server)
-    {
-        return view('ldap.edit', [
-            'server' => $server,
-        ]);
-    }
-
-    /**
-     * @param \App\Http\Requests\LDAPServerRequest $request
-     * @param \App\Models\LDAP\Server $server
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(LDAPServerRequest $request, Server $server)
-    {
-        $server->update($request->all());
+        $server = LDAP::create($request->all());
 
         return redirect()->route('ldap.show', $server);
     }
 
     /**
-     * @param \App\Models\LDAP\Server $server
+     * @param  \App\Models\LDAP\LDAP $ldap
+     * @return \Illuminate\Http\Response
+     */
+    public function show(LDAP $ldap)
+    {
+        return view('ldap.show', [
+            'server' => $ldap,
+        ]);
+    }
+
+    /**
+     * @param  \App\Models\LDAP\LDAP $ldap
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(LDAP $ldap)
+    {
+        return view('ldap.edit', [
+            'server' => $ldap,
+        ]);
+    }
+
+    /**
+     * @param LDAPRequest $request
+     * @param LDAP $ldap
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(LDAPRequest $request, LDAP $ldap)
+    {
+        $ldap->update($request->all());
+
+        return redirect()->route('ldap.show', $ldap);
+    }
+
+    /**
+     * @param \App\Models\LDAP\LDAP $ldap
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Server $server)
+    public function destroy(LDAP $ldap)
     {
-        $server->delete();
+        $ldap->delete();
 
         return redirect()->route('ldap.index');
     }

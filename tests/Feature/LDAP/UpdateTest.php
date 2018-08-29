@@ -6,11 +6,12 @@
  * Time: 15:56
  */
 
-namespace Tests\Feature\Servers;
+namespace Tests\Feature\LDAP;
 
+use App\Models\LDAP\LDAP;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
-use Tests\Fixtures\ServerFixture;
+use Tests\Fixtures\LDAPFixture;
 use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 
@@ -31,7 +32,7 @@ class UpdateTest extends TestCase
     public function fixtures(): array
     {
         return [
-            'servers' => ServerFixture::class,
+            'servers' => LDAPFixture::class,
         ];
     }
 
@@ -54,7 +55,7 @@ class UpdateTest extends TestCase
     {
         $this->login();
 
-        $this->assertDatabaseHas('servers', [
+        $this->assertDatabaseHas(LDAP::TABLE_NAME, [
             'id' => 1,
             'name' => 'Local ldap server 1'
         ]);
@@ -69,7 +70,7 @@ class UpdateTest extends TestCase
 
         $result->assertRedirect('/ldap/1');
 
-        $this->assertDatabaseHas('servers', [
+        $this->assertDatabaseHas(LDAP::TABLE_NAME, [
             'id' => 1,
             'name' => $newName,
             'hostname' => 'ldap1.local',

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature\Servers;
+namespace Tests\Feature\LDAP;
 
 use LaravelFlux\Fixture\Traits\FixtureTrait;
-use Tests\Fixtures\ServerFixture;
+use Tests\Fixtures\LDAPFixture;
 use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,7 +27,7 @@ class IndexTest extends TestCase
     public function fixtures(): array
     {
         return [
-            'servers' => ServerFixture::class,
+            'servers' => LDAPFixture::class,
         ];
     }
 

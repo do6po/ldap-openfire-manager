@@ -10,7 +10,7 @@ namespace App\Http\Controllers\LDAP;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\LDAP\Server;
+use App\Models\LDAP\LDAP;
 use App\Services\LDAP\LDAPService;
 
 class TestConnectionController extends Controller
@@ -28,10 +28,10 @@ class TestConnectionController extends Controller
     }
 
     /**
-     * @param Server $server
+     * @param LDAP $server
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function test(Server $server)
+    public function test(LDAP $server)
     {
         $this->LDAPService->test($server);
 

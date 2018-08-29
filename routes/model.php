@@ -6,4 +6,4 @@
  * Time: 11:39
  */
 
-Route::model('ldap', \App\Models\LDAP\Server::class);
+Route::model('ldap', \App\Models\LDAP\LDAP::class);

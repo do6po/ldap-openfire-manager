@@ -1,6 +1,6 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\LDAP\Server[] $servers */
+/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\LDAP\LDAP[] $servers */
 
 ?>
 

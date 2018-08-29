@@ -6,7 +6,7 @@
  * Time: 0:48
  */
 
-use App\Models\LDAP\Server;
+use App\Models\LDAP\LDAP;
 
 Breadcrumbs::for('dashboard', function ($trail) {
     $trail->push('DASHBOARD', route('dashboard'));
@@ -22,12 +22,12 @@ Breadcrumbs::for('ldap.create', function ($trail) {
     $trail->push('Add new', route('ldap.create'));
 });
 
-Breadcrumbs::for('ldap.edit', function ($trail, Server $server) {
+Breadcrumbs::for('ldap.edit', function ($trail, LDAP $ldap) {
     $trail->parent('ldap');
-    $trail->push('Edit', route('ldap.edit', $server));
+    $trail->push('Edit', route('ldap.edit', $ldap));
 });
 
-Breadcrumbs::for('ldap.show', function ($trail, Server $server) {
+Breadcrumbs::for('ldap.show', function ($trail, LDAP $ldap) {
     $trail->parent('ldap');
-    $trail->push($server->name, route('ldap.show', $server));
+    $trail->push($ldap->name, route('ldap.show', $ldap));
 });

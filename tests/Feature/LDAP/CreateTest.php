@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Feature\Servers;
+namespace Tests\Feature\LDAP;
 
+use App\Models\LDAP\LDAP;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
-use Tests\Fixtures\ServerFixture;
+use Tests\Fixtures\LDAPFixture;
 use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,7 +28,7 @@ class CreateTest extends TestCase
     public function fixtures(): array
     {
         return [
-            'servers' => ServerFixture::class,
+            'ldap_servers' => LDAPFixture::class,
         ];
     }
 
@@ -58,11 +59,31 @@ class CreateTest extends TestCase
             'password' => '1234',
         ];
 
-        $this->assertDatabaseMissing('servers', $newServer);
+        $this->assertDatabaseMissing(LDAP::TABLE_NAME, $newServer);
+
+        $this->post('/ldap', $newServer);
+
+        $this->assertDatabaseHas(LDAP::TABLE_NAME, $newServer);
+    }
+
+    public function testCreateWithNotUniqueName(): void
+    {
+        $this->login();
+
+        $newServer = [
+            'name' => 'Local ldap server 1',
+            'hostname' => 'hostname.loc',
+            'port' => 389,
+            'username' => 'newUsername',
+            'password' => '1234',
+        ];
 
         $result = $this->post('/ldap', $newServer);
-        $result->assertRedirect('/ldap');
+        $result->assertRedirect();
 
-        $this->assertDatabaseHas('servers', $newServer);
+        $newResult = $this->get('/ldap/create');
+        $newResult->assertSee('Local ldap server 1');
+
+        $this->assertDatabaseMissing(LDAP::TABLE_NAME, $newServer);
     }
 }

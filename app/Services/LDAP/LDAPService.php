@@ -11,7 +11,7 @@ namespace App\Services\LDAP;
 
 use Adldap\Adldap;
 use App\Helpers\FlashMessageHelper;
-use App\Models\LDAP\Server;
+use App\Models\LDAP\LDAP;
 
 class LDAPService
 {
@@ -23,9 +23,9 @@ class LDAPService
     }
 
     /**
-     * @param Server $server
+     * @param LDAP $server
      */
-    public function test(Server $server)
+    public function test(LDAP $server)
     {
         try {
 
@@ -43,11 +43,11 @@ class LDAPService
     }
 
     /**
-     * @param Server $server
+     * @param LDAP $server
      * @return \Adldap\Connections\ProviderInterface
      * @throws LDAPConnectException
      */
-    public function connect(Server $server)
+    public function connect(LDAP $server)
     {
         try {
             $this->ldap->addProvider([

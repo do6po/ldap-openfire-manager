@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Models\LDAP\Server $server */
+/** @var \App\Models\LDAP\LDAP $server */
 ?>
 
 @extends('layouts.app')
@@ -12,7 +12,7 @@
 
     <section class="content">
         <div class="form-group">
-            {!! Form::open(['method' => 'DELETE', 'action' => ['LDAP\ServerController@destroy', $server]]) !!}
+            {!! Form::open(['method' => 'DELETE', 'route' => ['ldap.destroy', $server]]) !!}
             <a href="{{ route('ldap.edit', $server) }}" class="btn btn-primary">
                 {{ __('Edit') }}
             </a>

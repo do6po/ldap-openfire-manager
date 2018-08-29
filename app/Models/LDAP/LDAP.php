@@ -5,7 +5,7 @@ namespace App\Models\LDAP;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\LDAP\Server
+ * App\Models\LDAP\LDAP
  *
  * @property int $id
  * @property string $name
@@ -16,20 +16,24 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $description
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereHostname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server wherePort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereHostname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP wherePort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Server whereUsername($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereUsername($value)
  */
-class Server extends Model
+class LDAP extends Model
 {
+    const TABLE_NAME = 'ldap_servers';
+
     const DEFAULT_LDAP_PORT = 389;
+
+    protected $table = self::TABLE_NAME;
 
     protected $fillable = [
         'name',
