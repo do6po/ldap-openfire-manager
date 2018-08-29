@@ -14,11 +14,6 @@ use App\Models\LDAP\LDAP;
 
 class LDAPController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * @return \Illuminate\Http\Response
      */
@@ -26,7 +21,7 @@ class LDAPController extends Controller
     {
         $servers = LDAP::paginate();
 
-        return view('ldap.index', [
+        return view('ldap.ldap.index', [
             'servers' => $servers,
         ]);
     }
@@ -36,7 +31,7 @@ class LDAPController extends Controller
      */
     public function create()
     {
-        return view('ldap.create');
+        return view('ldap.ldap.create');
     }
 
     /**
@@ -56,7 +51,7 @@ class LDAPController extends Controller
      */
     public function show(LDAP $ldap)
     {
-        return view('ldap.show', [
+        return view('ldap.ldap.show', [
             'server' => $ldap,
         ]);
     }
@@ -67,7 +62,7 @@ class LDAPController extends Controller
      */
     public function edit(LDAP $ldap)
     {
-        return view('ldap.edit', [
+        return view('ldap.ldap.edit', [
             'server' => $ldap,
         ]);
     }

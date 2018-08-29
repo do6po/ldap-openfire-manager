@@ -38,6 +38,4 @@ Route::group([
     Route::get('/{ldap}/test', 'TestConnectionController@test')->name('test');
 });
 
-//dd(Route::getRoutes());
-
 
