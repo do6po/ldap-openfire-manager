@@ -8,13 +8,22 @@
             @guest()
                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
             @else
-                {!! Form::open(['route' => 'logout']) !!}
-                {!! Form::submit(__('Logout'), [
+                {!! Form::button(__('Logout'), [
                     'class' => 'btn btn-link nav-link',
-                    'onClick' => sprintf('return confirm("%s")', __('Are you sure?')),
+                    'data-toggle' => 'modal',
+                    'data-target' => '#logoutConfirm',
                 ]) !!}
-                {!! Form::close() !!}
             @endguest
         </li>
     </ul>
 </nav>
+
+@auth()
+    @include('layouts._confirm', [
+        'id' => 'logoutConfirm',
+        'route' => 'logout',
+        'message' => __('Logout. Are you sure?'),
+        'buttonName' => __('Logout'),
+        'buttonClass' => 'btn btn-danger',
+    ])
+@endauth
