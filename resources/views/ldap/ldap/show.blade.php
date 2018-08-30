@@ -94,7 +94,15 @@
     </section>
     <section class="content">
         <div class="form-group">
+            {!! Form::button(__('Add new roster'), [
+                'class' => 'btn btn-success',
+                'data-toggle' => 'modal',
+                'data-target' => '#addRosterModal',
+            ]) !!}
 
+            @include('ldap.roster.create', [
+                'server' => $server,
+            ])
         </div>
     </section>
 @endsection

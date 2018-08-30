@@ -36,6 +36,13 @@ Route::group([
     Route::delete('/{ldap}', 'LDAPController@destroy')->name('destroy');
 
     Route::get('/{ldap}/test', 'TestConnectionController@test')->name('test');
+
+    Route::group([
+        'prefix' => 'roster',
+        'as' => 'roster.',
+    ], function () {
+        Route::post('', 'RosterController@store')->name('store');
+    });
 });
 
 
