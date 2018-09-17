@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\LDAP whereUsername($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LDAP\Roster[] $rosters
  */
 class LDAP extends Model
 {
@@ -59,5 +60,13 @@ class LDAP extends Model
             'created_at' => __('Created at'),
             'description' => __('Description'),
         ];
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rosters()
+    {
+        return $this->hasMany(Roster::class, 'ldap_id', 'id');
     }
 }

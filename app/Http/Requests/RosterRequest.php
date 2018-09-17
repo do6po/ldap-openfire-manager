@@ -29,14 +29,17 @@ class RosterRequest extends FormRequest
             'roster_path' => [
                 'required',
                 'string',
+                'max:255',
             ],
             'users_group' => [
+                'nullable',
                 'string',
+                'max:255',
             ],
             'ldap_id' => [
                 'required',
                 'integer',
-                Rule::exists(LDAP::TABLE_NAME)->where('id'),
+                Rule::exists(LDAP::TABLE_NAME,'id'),
             ],
             'description' => 'max:1024',
         ];

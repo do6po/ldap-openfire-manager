@@ -53,6 +53,7 @@ class LDAPController extends Controller
     {
         return view('ldap.ldap.show', [
             'server' => $ldap,
+            'rosters' => $ldap->rosters,
         ]);
     }
 

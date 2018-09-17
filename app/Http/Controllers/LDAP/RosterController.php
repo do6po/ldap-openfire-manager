@@ -18,6 +18,6 @@ class RosterController extends Controller
     {
         Roster::create($request->all());
 
-        return redirect()->getUrlGenerator()->previous();
+        return back();
     }
 }

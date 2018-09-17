@@ -24,25 +24,25 @@ use App\Models\LDAP\LDAP;
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    {!! Form::text('name', old('name'), [
+                    {!! Form::text('name', null, [
                             'class' => 'form-control',
                             'placeholder' => __('Roster name'),
                     ]) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::text('roster_path', old('roster_path'), [
+                    {!! Form::text('roster_path', null, [
                             'class' => 'form-control',
                             'placeholder' => __('Path'),
                     ]) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::text('users_group', old('users_group'), [
+                    {!! Form::text('users_group', null, [
                         'class' => 'form-control',
                         'placeholder' => __('Users group'),
                     ]) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::textarea('description', old('description'), [
+                    {!! Form::textarea('description', null, [
                         'class' => 'form-control',
                         'placeholder' => __('Description'),
                         'rows' => 4,

@@ -1,5 +1,6 @@
 <?php
 /** @var \App\Models\LDAP\LDAP $server */
+/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\LDAP\Roster[] $rosters */
 ?>
 
 @extends('layouts.app')
@@ -104,5 +105,8 @@
                 'server' => $server,
             ])
         </div>
+        @include('ldap.roster.list', [
+            'rosters' => $rosters,
+        ])
     </section>
 @endsection

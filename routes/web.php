@@ -41,7 +41,7 @@ Route::group([
         'prefix' => 'roster',
         'as' => 'roster.',
     ], function () {
-        Route::post('', 'RosterController@store')->name('store');
+        Route::post('/', 'RosterController@store')->name('store');
     });
 });
 

@@ -13,6 +13,7 @@ use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
 use Tests\Fixtures\LDAPFixture;
+use Tests\Fixtures\RosterFixtures;
 use Tests\TestCase;
 
 class RosterTest extends TestCase
@@ -33,6 +34,7 @@ class RosterTest extends TestCase
     {
         return [
             LDAPFixture::class,
+            RosterFixtures::class,
         ];
     }
 
@@ -48,7 +50,8 @@ class RosterTest extends TestCase
         ];
 
         $this->assertDatabaseMissing(Roster::TABLE_NAME, $rosterAttributes);
-        Roster::create($rosterAttributes);
+        $roster = Roster::create($rosterAttributes);
+        $this->assertNotNull($roster);
         $this->assertDatabaseHas(Roster::TABLE_NAME, $rosterAttributes);
     }
 

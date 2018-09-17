@@ -54,12 +54,11 @@ class RosterCreateTest extends TestCase
         ];
 
         $this->login();
-        $this->post('/');
+        $this->prepareUrlForRequest('/');
 
         $this->assertDatabaseMissing(Roster::TABLE_NAME, $rosterAttributes);
 
-        $response = $this->post(self::URI, $rosterAttributes);
-        //$response->assertRedirect('/');
+        $this->post(self::URI, $rosterAttributes);
 
         $this->assertDatabaseHas(Roster::TABLE_NAME, $rosterAttributes);
     }
