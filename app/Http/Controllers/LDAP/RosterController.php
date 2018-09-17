@@ -20,4 +20,23 @@ class RosterController extends Controller
 
         return back();
     }
+
+    public function update(RosterRequest $request, Roster $roster)
+    {
+        $roster->update($request->all());
+
+        return back();
+    }
+
+    /**
+     * @param Roster $roster
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Roster $roster)
+    {
+        $roster->delete();
+
+        return back();
+    }
 }

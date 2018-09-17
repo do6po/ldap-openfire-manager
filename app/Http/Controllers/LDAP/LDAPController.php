@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\LDAP;
 
+use App\Helpers\FlashMessageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LDAPRequest;
 use App\Models\LDAP\LDAP;
@@ -87,6 +88,14 @@ class LDAPController extends Controller
      */
     public function destroy(LDAP $ldap)
     {
+        $rosterCount = $ldap->rosters()->count();
+
+        if ($rosterCount) {
+            FlashMessageHelper::warning(__('Can\'t delete! This LDAP config have a :rosterCount rosters!', ['rosterCount' => $rosterCount]));
+
+            return back();
+        }
+
         $ldap->delete();
 
         return redirect()->route('ldap.index');

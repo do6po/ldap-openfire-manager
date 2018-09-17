@@ -24,11 +24,17 @@
                 {{ __('Cancel') }}
             </a>
             {{ Form::button(__('Delete'), [
-                'type' => 'submit',
                 'class' => 'btn btn-danger pull-right',
-                'onClick' => sprintf('return confirm("%s")', __('Are you sure?')),
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfirm',
              ]) }}
-            {!! Form::close() !!}
+            @include('layouts._confirm', [
+                'id' => 'deleteConfirm',
+                'route' => ['ldap.destroy', $server],
+                'message' => __('Delete. Are you sure?'),
+                'buttonName' => __('Delete'),
+                'buttonClass' => 'btn btn-danger',
+            ])
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
