@@ -11,6 +11,7 @@ namespace Tests\Feature\LDAP;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelFlux\Fixture\Traits\FixtureTrait;
 use Tests\Fixtures\LDAPFixture;
+use Tests\Fixtures\RosterFixtures;
 use Tests\Helpers\AuthTrait;
 use Tests\TestCase;
 
@@ -34,6 +35,7 @@ class ShowTest extends TestCase
     {
         return [
             'servers' => LDAPFixture::class,
+            RosterFixtures::class,
         ];
     }
 
@@ -58,5 +60,10 @@ class ShowTest extends TestCase
         ]);
 
         $result->assertSeeText('Test connection');
+
+        $result->assertSeeTextInOrder([
+            'Roster 1 for LDAP 1',
+            'Roster 2 for LDAP 1',
+        ]);
     }
 }
