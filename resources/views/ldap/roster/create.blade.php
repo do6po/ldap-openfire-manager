@@ -65,6 +65,7 @@ use App\Models\LDAP\LDAP;
                     'class' => 'btn btn-success',
                 ]) !!}
             </div>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>

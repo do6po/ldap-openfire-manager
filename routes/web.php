@@ -42,6 +42,7 @@ Route::group([
         'as' => 'roster.',
     ], function () {
         Route::post('/', 'RosterController@store')->name('store');
+        Route::delete('/{roster}', 'RosterController@destroy')->name('destroy');
     });
 });
 

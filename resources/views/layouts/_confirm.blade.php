@@ -3,7 +3,8 @@
         <div class="modal-content">
             {!! Form::open([
                 'id' => $id . '-form',
-                 'route' => $route
+                'route' => $route,
+                'method' => $method ?? 'POST',
              ]) !!}
             <div class="modal-body">
                 <h5 class="text-center pb-3">
@@ -13,6 +14,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     {!! Form::submit($buttonName, [
                         'class' => $buttonClass,
+                        'form' => $id . '-form',
                     ]) !!}
                 </div>
             </div>

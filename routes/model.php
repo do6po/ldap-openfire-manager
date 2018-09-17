@@ -7,3 +7,4 @@
  */
 
 Route::model('ldap', \App\Models\LDAP\LDAP::class);
+Route::model('roster', \App\Models\LDAP\Roster::class);
