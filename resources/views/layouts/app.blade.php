@@ -33,12 +33,13 @@
 
 @include('layouts._footer')
 
-@yield('modals')
+@stack('modals')
 
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
-@yield('scripts')
+@stack('scripts')
 
 </body>
 

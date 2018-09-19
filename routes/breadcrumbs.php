@@ -7,6 +7,7 @@
  */
 
 use App\Models\LDAP\LDAP;
+use App\Models\LDAP\Roster;
 
 Breadcrumbs::for('dashboard', function ($trail) {
     $trail->push('DASHBOARD', route('dashboard'));
@@ -30,4 +31,14 @@ Breadcrumbs::for('ldap.edit', function ($trail, LDAP $ldap) {
 Breadcrumbs::for('ldap.show', function ($trail, LDAP $ldap) {
     $trail->parent('ldap');
     $trail->push($ldap->name, route('ldap.show', $ldap));
+});
+
+Breadcrumbs::for('ldap.roster', function ($trail) {
+    $trail->parent('ldap');
+    $trail->push('Rosters', route('ldap.roster.index'));
+});
+
+Breadcrumbs::for('ldap.roster.show', function ($trail, Roster $roster) {
+    $trail->parent('ldap.roster');
+    $trail->push($roster->name, route('ldap.roster.show', $roster));
 });

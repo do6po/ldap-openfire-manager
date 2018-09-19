@@ -71,4 +71,13 @@ class LDAPTest extends TestCase
         $params['port'] = 389;
         $this->assertDatabaseHas(LDAP::TABLE_NAME, $params);
     }
+
+    public function testGetAsArray()
+    {
+        $this->assertEquals([
+            1 => 'Local ldap server 1',
+            2 => 'Local ldap server 2',
+            3 => 'Local ldap server 3',
+        ], LDAP::getAsArray());
+    }
 }

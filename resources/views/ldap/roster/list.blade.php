@@ -26,13 +26,22 @@
         @foreach($rosters as $roster)
             <tr>
                 <td>{{ $roster->id }}</td>
-                <td>{{ $roster->name }}</td>
+                <td>
+                    <a href="{{ route('ldap.roster.show', $roster) }}">
+                        {{ $roster->name }}
+                    </a>
+                </td>
                 <td>{{ $roster->roster_path }}</td>
                 <td>{{ $roster->users_group }}</td>
                 <td>{{ $roster->description }}</td>
                 <td>
                     <a href="#"
-                       class="fa fa-trash"
+                       class="fa fa-pencil"
+                       data-toggle="modal"
+                       data-target="{{ '#rosterUpdate-' . $roster->id }}">
+                    </a>
+                    <a href="#"
+                       class="fa fa-trash text-danger"
                        data-toggle="modal"
                        data-target="{{ '#rosterDeleteConfirm-' . $roster->id }}">
                     </a>
@@ -43,8 +52,10 @@
     </table>
 </div>
 
-@section('modals')
+@push('modals')
+
     @foreach($rosters as $roster)
+
         @include('layouts._confirm', [
             'id' => 'rosterDeleteConfirm-' . $roster->id,
             'route' => ['ldap.roster.destroy', $roster->id],
@@ -53,5 +64,11 @@
             'buttonClass' => 'btn btn-danger',
             'method' => 'DELETE',
         ])
+
+        @include('ldap.roster.update', [
+            'roster' => $roster,
+        ])
+
     @endforeach
-@endsection
+
+@endpush

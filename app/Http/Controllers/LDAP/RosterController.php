@@ -10,6 +10,7 @@ namespace App\Http\Controllers\LDAP;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RosterRequest;
+use App\Models\LDAP\LDAP;
 use App\Models\LDAP\Roster;
 
 class RosterController extends Controller
@@ -38,5 +39,13 @@ class RosterController extends Controller
         $roster->delete();
 
         return back();
+    }
+
+    public function show(Roster $roster)
+    {
+        return view('ldap.roster.show', [
+            'roster' => $roster,
+            'ldapServers' => LDAP::getAsArray(),
+        ]);
     }
 }

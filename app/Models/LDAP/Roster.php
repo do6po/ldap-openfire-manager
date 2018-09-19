@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $users_group
  * @property string|null $description
  * @property int $ldap_id
+ *
+ * @property LDAP $ldap
+ *
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\LDAP\Roster whereCreatedAt($value)
@@ -42,4 +45,9 @@ class Roster extends Model
         'description',
         'ldap_id',
     ];
+
+    public function ldap()
+    {
+        return $this->hasOne(LDAP::class, 'id', 'ldap_id');
+    }
 }

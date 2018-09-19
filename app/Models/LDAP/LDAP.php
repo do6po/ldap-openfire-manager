@@ -69,4 +69,9 @@ class LDAP extends Model
     {
         return $this->hasMany(Roster::class, 'ldap_id', 'id');
     }
+
+    public static function getAsArray()
+    {
+        return self::pluck('name', 'id')->all();
+    }
 }
