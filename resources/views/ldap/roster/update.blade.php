@@ -63,7 +63,7 @@ use App\Models\LDAP\Roster;
                     'class' => 'btn btn-default',
                     'data-dismiss' => 'modal',
                 ]) !!}
-                {!! Form::submit(__('Add'), [
+                {!! Form::submit(__('Update'), [
                     'class' => 'btn btn-success',
                 ]) !!}
             </div>

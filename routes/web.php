@@ -46,6 +46,7 @@ Route::group([
         Route::delete('/{roster}', 'RosterController@destroy')->name('destroy');
         Route::get('/{roster}', 'RosterController@show')->name('show');
         Route::put('/{roster}', 'RosterController@update')->name('update');
+        Route::get('/{roster}/get', 'RosterController@getRoster')->name('get');
 
     });
 });

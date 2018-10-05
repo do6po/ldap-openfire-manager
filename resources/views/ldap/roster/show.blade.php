@@ -21,6 +21,12 @@
             <a href="{{ redirect()->getUrlGenerator()->previous() }}" class="btn btn-default">
                 {{ __('Cancel') }}
             </a>
+
+            <a href="{{ route('ldap.roster.get', $roster) }}"
+               class="btn btn-info pull-right">
+                {{ __('Get roster') }}
+            </a>
+
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">

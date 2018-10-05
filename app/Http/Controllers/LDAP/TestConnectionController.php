@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\LDAP;
 
 
+use App\Helpers\FlashMessageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\LDAP\LDAP;
 use App\Services\LDAP\LDAPService;
@@ -31,7 +32,15 @@ class TestConnectionController extends Controller
      */
     public function test(LDAP $server)
     {
-        $this->LDAPService->test($server);
+        if ($this->LDAPService->test($server)) {
+            FlashMessageHelper::success(
+                __('Connection successful.')
+            );
+        } else {
+            FlashMessageHelper::error(
+                __('Connection error.')
+            );
+        }
 
         return redirect()->route('ldap.show', $server);
     }

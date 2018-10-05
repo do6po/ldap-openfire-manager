@@ -6,7 +6,7 @@
  * Time: 13:11
  */
 
-namespace App\Services\LDAP;
+namespace App\Drivers\LDAP;
 
 
 class LDAPConnectException extends \Exception

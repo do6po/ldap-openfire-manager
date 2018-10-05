@@ -12,9 +12,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RosterRequest;
 use App\Models\LDAP\LDAP;
 use App\Models\LDAP\Roster;
+use App\Services\LDAP\LDAPService;
 
 class RosterController extends Controller
 {
+    /**
+     * @var LDAPService
+     */
+    private $ldapService;
+
+    public function __construct(LDAPService $ldapService)
+    {
+        $this->ldapService = $ldapService;
+    }
+
     public function store(RosterRequest $request)
     {
         Roster::create($request->all());
@@ -47,5 +58,14 @@ class RosterController extends Controller
             'roster' => $roster,
             'ldapServers' => LDAP::getAsArray(),
         ]);
+    }
+
+    /**
+     * @param Roster $roster
+     * @throws \App\Drivers\LDAP\LDAPConnectException
+     */
+    public function getRoster(Roster $roster)
+    {
+        dd($this->ldapService->getRoster($roster->ldap, $roster));
     }
 }
