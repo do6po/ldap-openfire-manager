@@ -11,6 +11,7 @@ namespace App\Models\LDAP;
 
 use App\Exceptions\Model\LDAP\CreateOrganizationalUnitException;
 use App\Exceptions\Model\LDAP\DCNotFoundException;
+use App\Exceptions\Model\LDAP\OrganizationalUnitExistException;
 use App\Models\LDAP\Attributes\DistinguishedName;
 
 class OrganizationalUnitFactory

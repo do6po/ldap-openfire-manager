@@ -95,11 +95,13 @@ class OrganizationalUnit
     public function add(self $ou): void
     {
         $this->nested[$ou->getName()] = $ou;
+        $this->sortNested();
     }
 
     public function addUser(User $user): void
     {
         $this->users[$user->getName()] = $user;
+        $this->sortUsers();
     }
 
     /**
@@ -113,5 +115,15 @@ class OrganizationalUnit
     protected function validate(): bool
     {
         return $this->dn->isOrganizationalUnit();
+    }
+
+    private function sortNested(): void
+    {
+        ksort($this->nested, SORT_STRING);
+    }
+
+    private function sortUsers(): void
+    {
+        ksort($this->users, SORT_STRING);
     }
 }

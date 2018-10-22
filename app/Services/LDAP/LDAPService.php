@@ -11,9 +11,13 @@ namespace App\Services\LDAP;
 
 use Adldap\Models\User;
 use App\Drivers\LDAP\LDAPConnection;
+use App\Exceptions\Model\LDAP\CreateOrganizationalUnitException;
+use App\Exceptions\Model\LDAP\DCNotFoundException;
+use App\Exceptions\Model\LDAP\OrganizationalUnitExistException;
+use App\Models\LDAP\Attributes\DistinguishedName;
 use App\Models\LDAP\LDAP;
+use App\Models\LDAP\OrganizationalUnitFactory;
 use App\Models\LDAP\Roster;
-use Illuminate\Support\Collection;
 
 class LDAPService
 {
@@ -35,9 +39,11 @@ class LDAPService
     /**
      * @param LDAP $server
      * @param Roster $roster
-     * @return array
-     * @throws NotFoundRosterPathException
+     * @return \App\Models\LDAP\OrganizationalUnit[]|array
+     * @throws OrganizationalUnitExistException
      * @throws \App\Drivers\LDAP\LDAPConnectException
+     * @throws CreateOrganizationalUnitException
+     * @throws DCNotFoundException
      */
     public function getRoster(LDAP $server, Roster $roster)
     {
@@ -55,103 +61,22 @@ class LDAPService
     }
 
     /**
-     * @param User[]|Collection $users
+     * @param User[] $users
      * @param Roster $roster
-     * @return array
-     * @throws NotFoundRosterPathException
+     * @return \App\Models\LDAP\OrganizationalUnit[]|array
+     * @throws OrganizationalUnitExistException
+     * @throws CreateOrganizationalUnitException
+     * @throws DCNotFoundException
      */
     private function getRosterAsArray($users, Roster $roster)
     {
-        $rosterArray = [];
-
         foreach ($users as $user) {
-            $dnPathString = $this->getRawDnPath(
-                $user->getDn(),
-                $user->getName(),
-                $roster->roster_path
-            );
-
-            $dnPathArray = $this->normalizeDn($dnPathString);
-            $partOfRoster = $this->getNestedByDnPathArray($dnPathArray);
-
-            $this->pushUserToRoster($partOfRoster, $dnPathArray, $user->getName());
-
-            $rosterArray = $this->pushToRosterArray($rosterArray, $partOfRoster);
+            $dn = DistinguishedName::createByDnString($user->getDn());
+            $parentDn = $dn->getParentDn();
+            $currentOu = OrganizationalUnitFactory::findOrCreateByDnString($parentDn);
+            $currentOu->addUser($user);
         }
 
-        return $this->rosterSort($rosterArray);
-    }
-
-    private function getRawDnPath(string $dn, string $userName, string $rawFilter): string
-    {
-        $result = str_ireplace('CN=' . $userName, '', $dn);
-        $result = str_ireplace($rawFilter, '', $result);
-
-        return trim($result, ',');
-    }
-
-    private function normalizeDn(string $dnPathString): array
-    {
-        $array = explode(',', str_ireplace(['OU=', 'ou='], '', $dnPathString));
-
-        return array_reverse($array);
-    }
-
-    private function getNestedByDnPathArray(array $dnArray): array
-    {
-        $result = [];
-        if (count($dnArray) > 0) {
-            $ou = array_shift($dnArray);
-            $result[$ou] = $this->getNestedByDnPathArray($dnArray);
-        }
-
-        return $result;
-    }
-
-    private function pushToRosterArray(array $roster, array $partOfRoster): array
-    {
-        return array_merge_recursive($roster, $partOfRoster);
-    }
-
-    private function rosterSort(array &$roster): array
-    {
-        foreach ($roster as &$subRoster) {
-            if (is_array($subRoster)) {
-                $this->rosterSort($subRoster);
-            }
-        }
-
-        ksort($roster, SORT_STRING);
-
-        return $roster;
-    }
-
-    /**
-     * @param array $roster
-     * @param array $path
-     * @param string $userName
-     * @return array
-     * @throws NotFoundRosterPathException
-     */
-    public function pushUserToRoster(array &$roster, array $path, string $userName): array
-    {
-        if (count($path) == 0) {
-            $roster[] = $userName;
-
-            return $roster;
-        }
-
-        $pathname = array_shift($path);
-
-        if (!isset($roster[$pathname])) {
-            throw new NotFoundRosterPathException('Not found path with name: ' . $pathname);
-        }
-
-        $result = $this->pushToRosterArray(
-            $roster,
-            [$pathname => $this->pushUserToRoster($roster[$pathname], $path, $userName)]
-        );
-
-        return $result;
+        return OrganizationalUnitFactory::findOrCreateByDnString($roster->roster_path)->getNested();
     }
 }

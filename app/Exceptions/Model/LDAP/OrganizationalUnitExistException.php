@@ -6,7 +6,7 @@
  * Time: 13:00
  */
 
-namespace App\Models\LDAP;
+namespace App\Exceptions\Model\LDAP;
 
 
 class OrganizationalUnitExistException extends \Exception
