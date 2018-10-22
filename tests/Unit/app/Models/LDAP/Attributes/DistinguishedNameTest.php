@@ -84,7 +84,7 @@ class DistinguishedNameTest extends TestCase
     /**
      * @param $dnString
      * @param $expected
-     * @throws \App\Models\LDAP\Attributes\DCNotFoundException
+     * @throws \App\Exceptions\Model\LDAP\DCNotFoundException
      * @dataProvider getDomainComponentsStringDataProvider
      */
     public function testGetRootDomainNamingContext($dnString, $expected)
@@ -125,8 +125,8 @@ class DistinguishedNameTest extends TestCase
      * @param $dnString
      * @param $nestingLevel
      * @param $expected
-     * @throws \App\Models\LDAP\Attributes\DCNotFoundException
-     * @throws \App\Models\LDAP\Attributes\OuNestedLevelException
+     * @throws \App\Exceptions\Model\LDAP\DCNotFoundException
+     * @throws \App\Exceptions\Model\LDAP\OuNestedLevelException
      * @dataProvider trimToNestingLevelDataProvider
      */
     public function testTrimToNestingLevel($dnString, $nestingLevel, $expected)
@@ -152,31 +152,6 @@ class DistinguishedNameTest extends TestCase
                 'CN=Имя пользователя,OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local',
                 3,
                 'OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local'
-            ],
-        ];
-    }
-
-    /**
-     * @param $dnString
-     * @param $expected
-     * @dataProvider getWithoutCommonNameDataProvider
-     */
-    public function testGetWithoutCommonName($dnString, $expected)
-    {
-        $dn = DistinguishedName::createByDnString($dnString);
-        $this->assertEquals($expected, $dn->getWithoutCommonName());
-    }
-
-    public function getWithoutCommonNameDataProvider()
-    {
-        return [
-            [
-                'CN=Имя пользователя,OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local',
-                'OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local'
-            ],
-            [
-                'cn=Имя пользователя,ou=Leaf level,ou=Node level,ou=Root level,dc=domain,dc=local',
-                'ou=Leaf level,ou=Node level,ou=Root level,dc=domain,dc=local'
             ],
         ];
     }
@@ -217,6 +192,9 @@ class DistinguishedNameTest extends TestCase
         $this->assertEquals($identicalDn, $dn);
     }
 
+    /**
+     * @throws \App\Exceptions\Model\LDAP\DCNotFoundException
+     */
     public function testGetParent()
     {
         $dnString = 'CN=Имя пользователя,OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local';
@@ -225,7 +203,67 @@ class DistinguishedNameTest extends TestCase
         $parentDnString = 'OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local';
         $parentDn = DistinguishedName::createByDnString($parentDnString);
 
-        $this->assertEquals($parentDn, $dn->getParentDnString());
+        $this->assertEquals($parentDn, $dn->getParentDn());
 
+    }
+
+    /**
+     * @param $dnString
+     * @param $expected
+     * @dataProvider isOrganizationalUnitDataProvider
+     */
+    public function testIsOrganizationalUnit($dnString, $expected)
+    {
+        $dn = DistinguishedName::createByDnString($dnString);
+        $this->assertEquals($expected, $dn->isOrganizationalUnit());
+    }
+
+    public function isOrganizationalUnitDataProvider()
+    {
+        return [
+            ['CN=Имя пользователя,OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local', false],
+            ['OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local', true],
+            ['DC=domain,DC=local', false],
+        ];
+    }
+
+    /**
+     * @param $dnString
+     * @param $expected
+     * @dataProvider isCommonNameUnitDataProvider
+     */
+    public function testIsCommonName($dnString, $expected)
+    {
+        $dn = DistinguishedName::createByDnString($dnString);
+        $this->assertEquals($expected, $dn->isCommonName());
+    }
+
+    public function isCommonNameUnitDataProvider()
+    {
+        return [
+            ['CN=Имя пользователя,OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local', true],
+            ['OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local', false],
+            ['DC=domain,DC=local', false],
+        ];
+    }
+
+    /**
+     * @param $dnString
+     * @param $expected
+     * @dataProvider isDomainComponentDataProvider
+     */
+    public function testIsDomainComponent($dnString, $expected)
+    {
+        $dn = DistinguishedName::createByDnString($dnString);
+        $this->assertEquals($expected, $dn->isDomainComponent());
+    }
+
+    public function isDomainComponentDataProvider()
+    {
+        return [
+            ['CN=Имя пользователя,OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local', false],
+            ['OU=Leaf level,OU=Node level,OU=Root level,DC=domain,DC=local', false],
+            ['DC=domain,DC=local', true],
+        ];
     }
 }

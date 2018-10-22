@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66b30245d2ca245ef70fc231b07f5296",
+    "content-hash": "6f8a6d256d8942835563a80a0ce64491",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -1372,6 +1372,50 @@
                 "random"
             ],
             "time": "2018-07-02T15:55:56+00:00"
+        },
+        {
+            "name": "pbergman/tree-helper",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pbergman/tree-printer.git",
+                "reference": "c7622b987cc5e06f0e0ba958623f21b57a1991ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pbergman/tree-printer/zipball/c7622b987cc5e06f0e0ba958623f21b57a1991ab",
+                "reference": "c7622b987cc5e06f0e0ba958623f21b57a1991ab",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "symfony/console": ">=2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PBergman": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philip Bergman",
+                    "email": "pbergman@live.nl"
+                }
+            ],
+            "description": "A symfony console helper to print a tree",
+            "keywords": [
+                "array",
+                "builder",
+                "console",
+                "symfony",
+                "tree"
+            ],
+            "time": "2018-03-15T14:45:10+00:00"
         },
         {
             "name": "predis/predis",

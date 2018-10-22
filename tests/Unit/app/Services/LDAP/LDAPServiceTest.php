@@ -10,6 +10,7 @@ namespace Tests\Unit\app\Services\LDAP;
 
 
 use App\Services\LDAP\LDAPService;
+use app\Services\LDAP\NotFoundRosterPathException;
 use Tests\Helpers\PrivateMethodTrait;
 use Tests\TestCase;
 
@@ -75,11 +76,11 @@ class LDAPServiceTest extends TestCase
      * @param $dnPathString
      * @param $expected
      * @throws \ReflectionException
-     * @dataProvider getNestedByDnPathStringDataProvider
+     * @dataProvider getNestedByDnPathArrayDataProvider
      */
-    public function testGetNestedByDnPathString($dnPathString, $expected)
+    public function testGetNestedByDnPathArray($dnPathString, $expected)
     {
-        $method = $this->makePublicMethod(LDAPService::class, 'getNestedByDnPathString');
+        $method = $this->makePublicMethod(LDAPService::class, 'getNestedByDnPathArray');
 
         $this->assertEquals(
             $expected,
@@ -87,7 +88,7 @@ class LDAPServiceTest extends TestCase
         );
     }
 
-    public function getNestedByDnPathStringDataProvider()
+    public function getNestedByDnPathArrayDataProvider()
     {
         return [
             [
@@ -199,6 +200,73 @@ class LDAPServiceTest extends TestCase
                     'Программисты' => [
                         'Отдел программирования' => [
                             'Бюро верстальщиков' => [],
+                            'Бюро архитекторов' => [],
+                        ],
+                        'Отдел тестирования' => [
+                            'Бюро тестов' => [],
+                        ],
+                    ],
+                ],
+
+            ],
+        ];
+    }
+
+    /**
+     * @param $roster
+     * @param $path
+     * @param $value
+     * @param $expected
+     * @throws NotFoundRosterPathException
+     * @dataProvider pushUserToRosterDataProvider
+     */
+    public function testPushUserToRoster($roster, $path, $value, $expected)
+    {
+        $this->assertEquals($expected, $this->service->pushUserToRoster($roster, $path, $value));
+    }
+
+    public function pushUserToRosterDataProvider()
+    {
+        return [
+            [
+                [], [], 'user1(Юзервой Юзерий Юзерович)', ['user1(Юзервой Юзерий Юзерович)'],
+            ],
+            [
+                ['Программисты' => []],
+                [
+                    'Программисты'
+                ],
+                'user1(Юзервой Юзерий Юзерович)',
+                [
+                    'Программисты' => [
+                        'user1(Юзервой Юзерий Юзерович)',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'Программисты' => [
+                        'Отдел программирования' => [
+                            'Бюро верстальщиков' => [],
+                            'Бюро архитекторов' => [],
+                        ],
+                        'Отдел тестирования' => [
+                            'Бюро тестов' => [],
+                        ],
+                    ],
+                ],
+                [
+                    'Программисты',
+                    'Отдел программирования',
+                    'Бюро верстальщиков',
+                ],
+                'user1(Юзервой Юзерий Юзерович)',
+                [
+                    'Программисты' => [
+                        'Отдел программирования' => [
+                            'Бюро верстальщиков' => [
+                                'user1(Юзервой Юзерий Юзерович)',
+                            ],
                             'Бюро архитекторов' => [],
                         ],
                         'Отдел тестирования' => [

@@ -9,8 +9,16 @@
 namespace App\Models\LDAP\Attributes;
 
 
+use App\Exceptions\Model\LDAP\DCNotFoundException;
+use App\Exceptions\Model\LDAP\OuNestedLevelException;
+
 class DistinguishedName
 {
+
+    const CN_STRING = 'cn';
+    const OU_STRING = 'ou';
+    const DC_STRING = 'dc';
+
     /**
      * @var string
      */
@@ -41,7 +49,7 @@ class DistinguishedName
         return $this->getDnString();
     }
 
-    public function countNestingLevel(): bool
+    public function countNestingLevel(): int
     {
         return substr_count(strtolower($this->getDnString()), 'ou=');
     }
@@ -114,27 +122,42 @@ class DistinguishedName
         return '';
     }
 
-    public function getWithoutCommonName(): string
-    {
-        if (preg_match('/^cn=.*?\,(?<withoutCn>ou=.*)$/i', $this->getDnString(), $matches)) {
-            return $matches['withoutCn'];
-        }
-
-        return $this->getDnString();
-    }
-
     public function getCurrentOrganizationalUnit(): string
     {
         $ouArray = $this->getOuAsArray();
         return array_pop($ouArray);
     }
 
-    public function getParentDnString(): string
+    /**
+     * @return DistinguishedName
+     * @throws DCNotFoundException
+     */
+    public function getParentDn(): self
     {
-        if (preg_match('/=.*?,(?<parentDn>.*$)/', $this->getDnString(), $matches)) {
-            return $matches['parentDn'];
+        if (preg_match('/\=.*?,(?<parentDn>.*$)/', $this->getDnString(), $matches)) {
+            return self::createByDnString($matches['parentDn']);
         }
 
-        return '';
+        throw new DCNotFoundException(sprintf('Not found parent dn in string: ', $this->getDnString()));
+    }
+
+    public function isOrganizationalUnit(): bool
+    {
+        return $this->validateType(self::OU_STRING);
+    }
+
+    public function isCommonName(): bool
+    {
+        return $this->validateType(self::CN_STRING);
+    }
+
+    public function isDomainComponent(): bool
+    {
+        return $this->validateType(self::DC_STRING);
+    }
+
+    private function validateType($string): bool
+    {
+        return preg_match("/^$string\=/i", $this->getDnString());
     }
 }

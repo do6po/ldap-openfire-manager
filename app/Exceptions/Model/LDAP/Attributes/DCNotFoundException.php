@@ -6,7 +6,7 @@
  * Time: 16:53
  */
 
-namespace App\Models\LDAP\Attributes;
+namespace App\Exceptions\Model\LDAP;
 
 
 class DCNotFoundException extends \Exception

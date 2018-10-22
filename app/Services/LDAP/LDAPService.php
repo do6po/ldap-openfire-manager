@@ -13,6 +13,7 @@ use Adldap\Models\User;
 use App\Drivers\LDAP\LDAPConnection;
 use App\Models\LDAP\LDAP;
 use App\Models\LDAP\Roster;
+use Illuminate\Support\Collection;
 
 class LDAPService
 {
@@ -34,7 +35,8 @@ class LDAPService
     /**
      * @param LDAP $server
      * @param Roster $roster
-     * @return null
+     * @return array
+     * @throws NotFoundRosterPathException
      * @throws \App\Drivers\LDAP\LDAPConnectException
      */
     public function getRoster(LDAP $server, Roster $roster)
@@ -53,23 +55,26 @@ class LDAPService
     }
 
     /**
-     * @param User[] $users
+     * @param User[]|Collection $users
      * @param Roster $roster
-     * @return null
+     * @return array
+     * @throws NotFoundRosterPathException
      */
     private function getRosterAsArray($users, Roster $roster)
     {
         $rosterArray = [];
 
-        foreach ($users as $value) {
+        foreach ($users as $user) {
             $dnPathString = $this->getRawDnPath(
-                $value->getDn(),
-                $value->getName(),
+                $user->getDn(),
+                $user->getName(),
                 $roster->roster_path
             );
 
-            $dnArray = $this->normalizeDn($dnPathString);
-            $partOfRoster = $this->getNestedByDnPathString($dnArray);
+            $dnPathArray = $this->normalizeDn($dnPathString);
+            $partOfRoster = $this->getNestedByDnPathArray($dnPathArray);
+
+            $this->pushUserToRoster($partOfRoster, $dnPathArray, $user->getName());
 
             $rosterArray = $this->pushToRosterArray($rosterArray, $partOfRoster);
         }
@@ -92,12 +97,12 @@ class LDAPService
         return array_reverse($array);
     }
 
-    private function getNestedByDnPathString(array $dnArray): array
+    private function getNestedByDnPathArray(array $dnArray): array
     {
         $result = [];
         if (count($dnArray) > 0) {
             $ou = array_shift($dnArray);
-            $result[$ou] = $this->getNestedByDnPathString($dnArray);
+            $result[$ou] = $this->getNestedByDnPathArray($dnArray);
         }
 
         return $result;
@@ -111,11 +116,42 @@ class LDAPService
     private function rosterSort(array &$roster): array
     {
         foreach ($roster as &$subRoster) {
-            $this->rosterSort($subRoster);
+            if (is_array($subRoster)) {
+                $this->rosterSort($subRoster);
+            }
         }
 
         ksort($roster, SORT_STRING);
 
         return $roster;
+    }
+
+    /**
+     * @param array $roster
+     * @param array $path
+     * @param string $userName
+     * @return array
+     * @throws NotFoundRosterPathException
+     */
+    public function pushUserToRoster(array &$roster, array $path, string $userName): array
+    {
+        if (count($path) == 0) {
+            $roster[] = $userName;
+
+            return $roster;
+        }
+
+        $pathname = array_shift($path);
+
+        if (!isset($roster[$pathname])) {
+            throw new NotFoundRosterPathException('Not found path with name: ' . $pathname);
+        }
+
+        $result = $this->pushToRosterArray(
+            $roster,
+            [$pathname => $this->pushUserToRoster($roster[$pathname], $path, $userName)]
+        );
+
+        return $result;
     }
 }

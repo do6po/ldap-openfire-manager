@@ -6,7 +6,7 @@
  * Time: 15:35
  */
 
-namespace App\Models\LDAP\Attributes;
+namespace App\Exceptions\Model\LDAP;
 
 
 class OuNestedLevelException extends \Exception

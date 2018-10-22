@@ -42,3 +42,8 @@ Breadcrumbs::for('ldap.roster.show', function ($trail, Roster $roster) {
     $trail->parent('ldap.roster');
     $trail->push($roster->name, route('ldap.roster.show', $roster));
 });
+
+Breadcrumbs::for('ldap.roster.get', function ($trail, Roster $roster) {
+    $trail->parent('ldap.roster.show', $roster);
+    $trail->push(__('Render tree'), route('ldap.roster.get', $roster));
+});

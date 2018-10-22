@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers\LDAP;
 
+use App\Helpers\FlashMessageHelper;
+use App\Helpers\TreeHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RosterRequest;
 use App\Models\LDAP\LDAP;
@@ -62,10 +64,24 @@ class RosterController extends Controller
 
     /**
      * @param Roster $roster
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \App\Drivers\LDAP\LDAPConnectException
+     * @throws \Tests\Unit\app\Services\LDAP\NotFoundRosterPathException
      */
     public function getRoster(Roster $roster)
     {
-        dd($this->ldapService->getRoster($roster->ldap, $roster));
+        if (!$rosterArray = $this->ldapService->getRoster($roster->ldap, $roster)) {
+            FlashMessageHelper::error(
+                __('Connection error.')
+            );
+        }
+
+        $tree = TreeHelper::getTree($rosterArray);
+
+        return view('ldap.roster.get', [
+            'roster' => $roster,
+            'tree' => $tree,
+            'rosterArray' => $rosterArray,
+        ]);
     }
 }

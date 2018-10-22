@@ -41,6 +41,7 @@ class Roster extends Model
     protected $fillable = [
         'name',
         'roster_path',
+        //TODO изменить поле users_group на filter
         'users_group',
         'description',
         'ldap_id',
