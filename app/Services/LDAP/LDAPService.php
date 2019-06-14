@@ -9,15 +9,17 @@
 namespace App\Services\LDAP;
 
 
-use Adldap\Models\User;
 use App\Drivers\LDAP\LDAPConnection;
 use App\Exceptions\Model\LDAP\CreateOrganizationalUnitException;
 use App\Exceptions\Model\LDAP\DCNotFoundException;
 use App\Exceptions\Model\LDAP\OrganizationalUnitExistException;
 use App\Models\LDAP\Attributes\DistinguishedName;
 use App\Models\LDAP\LDAP;
+use App\Models\LDAP\LdapUser;
+use App\Models\LDAP\OrganizationalUnit;
 use App\Models\LDAP\OrganizationalUnitFactory;
 use App\Models\LDAP\Roster;
+use App\Models\LDAP\UserMapper;
 
 class LDAPService
 {
@@ -39,7 +41,7 @@ class LDAPService
     /**
      * @param LDAP $server
      * @param Roster $roster
-     * @return \App\Models\LDAP\OrganizationalUnit[]|array
+     * @return OrganizationalUnit[]
      * @throws OrganizationalUnitExistException
      * @throws \App\Drivers\LDAP\LDAPConnectException
      * @throws CreateOrganizationalUnitException
@@ -47,7 +49,6 @@ class LDAPService
      */
     public function getRoster(LDAP $server, Roster $roster)
     {
-
         $provider = $this->connection->connect($server, $roster);
 
         $array = $provider
@@ -57,23 +58,24 @@ class LDAPService
             ->sortBy('cn')
             ->get();
 
-        return $this->getRosterAsArray($array, $roster);
+        $ldapUsers = UserMapper::map($array);
+
+        return $this->getRosterAsArray($ldapUsers, $roster);
     }
 
     /**
-     * @param User[] $users
+     * @param LdapUser[] $ldapUsers
      * @param Roster $roster
-     * @return \App\Models\LDAP\OrganizationalUnit[]|array
+     * @return OrganizationalUnit[]
      * @throws OrganizationalUnitExistException
      * @throws CreateOrganizationalUnitException
      * @throws DCNotFoundException
      */
-    private function getRosterAsArray($users, Roster $roster)
+    private function getRosterAsArray($ldapUsers, Roster $roster)
     {
-        foreach ($users as $user) {
+        foreach ($ldapUsers as $user) {
             $dn = DistinguishedName::createByDnString($user->getDn());
-            $parentDn = $dn->getParentDn();
-            $currentOu = OrganizationalUnitFactory::findOrCreateByDnString($parentDn);
+            $currentOu = OrganizationalUnitFactory::findOrCreateByDnString($dn->getParentDn());
             $currentOu->addUser($user);
         }
 

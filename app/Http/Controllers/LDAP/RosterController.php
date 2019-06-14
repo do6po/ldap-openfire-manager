@@ -66,7 +66,7 @@ class RosterController extends Controller
      * @param Roster $roster
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \App\Drivers\LDAP\LDAPConnectException
-     * @throws \Tests\Unit\app\Services\LDAP\NotFoundRosterPathException
+     * @throws \App\Services\LDAP\NotFoundRosterPathException
      */
     public function getRoster(Roster $roster)
     {
@@ -75,7 +75,7 @@ class RosterController extends Controller
                 __('Connection error.')
             );
         }
-
+dd($rosterArray);
         $tree = TreeHelper::getTree($rosterArray);
 
         return view('ldap.roster.get', [

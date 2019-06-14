@@ -9,7 +9,6 @@
 namespace App\Models\LDAP;
 
 
-use Adldap\Models\User;
 use App\Exceptions\Model\LDAP\CreateOrganizationalUnitException;
 use App\Models\LDAP\Attributes\DistinguishedName;
 
@@ -26,7 +25,7 @@ class OrganizationalUnit
     protected $nested = [];
 
     /**
-     * @var User[]
+     * @var LdapUser[]
      */
     protected $users = [];
 
@@ -98,18 +97,23 @@ class OrganizationalUnit
         $this->sortNested();
     }
 
-    public function addUser(User $user): void
+    public function addUser(LdapUser $user): void
     {
-        $this->users[$user->getName()] = $user;
+        $this->users[] = $user;
         $this->sortUsers();
     }
 
     /**
-     * @return User[]
+     * @return LdapUser[]
      */
-    public function getAllUsers(): array
+    public function getUsers(): array
     {
         return $this->users;
+    }
+
+    public function countUsers(): int
+    {
+        return count($this->users);
     }
 
     protected function validate(): bool
@@ -117,13 +121,13 @@ class OrganizationalUnit
         return $this->dn->isOrganizationalUnit();
     }
 
-    private function sortNested(): void
+    protected function sortNested(): void
     {
         ksort($this->nested, SORT_STRING);
     }
 
-    private function sortUsers(): void
+    protected function sortUsers(): void
     {
-        ksort($this->users, SORT_STRING);
+        sort($this->users, SORT_STRING);
     }
 }
